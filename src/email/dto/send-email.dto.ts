@@ -16,7 +16,7 @@ export class SendEmailDto {
 
     @ApiProperty({ example: 'welcome-template'})
     @IsString()
-    templateId?: string;
+    templateID?: string;
     
     @ApiProperty({ example: { name: 'John Doe', require: false }})
     @IsOptional()
