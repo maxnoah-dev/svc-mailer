@@ -10,15 +10,23 @@ class EmailService {
 
   constructor() {
     this.prisma = PrismaService.getInstance();
-    this.transporter = nodemailer.createTransport({
+    
+    // Configure SMTP transport
+    const smtpConfig: any = {
       host: process.env.SMTP_HOST || 'localhost',
       port: parseInt(process.env.SMTP_PORT || '1025'),
       secure: false,
-      auth: {
+    };
+
+    // Only add auth if credentials are provided
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      smtpConfig.auth = {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
-      },
-    });
+      };
+    }
+
+    this.transporter = nodemailer.createTransport(smtpConfig);
   }
 
   async sendEmail(sendEmailDto: SendEmailDto): Promise<EmailResponseDto> {
@@ -56,7 +64,7 @@ class EmailService {
           from: process.env.FROM_EMAIL || 'noreply@example.com',
           to: sendEmailDto.to,
           subject: sendEmailDto.subject,
-          html: sendEmailDto.html,
+          html: htmlContent,
         });
 
         await this.prisma.prisma.email.update({

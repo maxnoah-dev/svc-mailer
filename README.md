@@ -54,6 +54,10 @@ A simple email service built with Express.js, TypeScript, and Prisma.
    ```
 
 ### Development
+Docker
+```
+docker run -d -p 1025:1025 -p 8025:8025 --name mailhog mailhog/mailhog
+```
 
 Start the development server:
 ```bash
