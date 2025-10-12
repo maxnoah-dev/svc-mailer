@@ -5,7 +5,7 @@ export const sendEmailSchema = z.object({
   subject: z.string().min(1, 'Subject is required'),
   html: z.string().optional(),
   templateID: z.string().optional(),
-  vars: z.record(z.any()).optional(),
+  vars: z.record(z.string(), z.any()).optional(),
 });
 
 export type SendEmailDto = z.infer<typeof sendEmailSchema>;
